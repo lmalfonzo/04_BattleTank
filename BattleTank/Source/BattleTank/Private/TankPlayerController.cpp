@@ -6,34 +6,35 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #define OUT
 
-
+// Sets up the tank, Called at the beginnning of play
 void ATankPlayerController::BeginPlay() 
 {
 	Super::BeginPlay();
 
-	auto PossessedTank = GetControlledTank();
-	if (!PossessedTank) {
+	if (!GetControlledTank()) {
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController not posessing a tank"));
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Possessed Tank: %s"), *(PossessedTank->GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("Possessed Tank: %s"), *(GetControlledTank()->GetName()));
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
 }
 
+// Every tick, aim the tank to the crosshair
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
 }
 
+// Attempts to get a controlled tank (casts Pawn to ATank)
 ATank* ATankPlayerController::GetControlledTank() const 
 {
 	return Cast<ATank>(GetPawn());
 }
 
-
+// Aims a tank towards a crosshair
 void ATankPlayerController::AimTowardsCrosshair() 
 {
 	if (!GetControlledTank()) { return; }
@@ -41,17 +42,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; //Out Param
 	if (GetSightRayHitLocation(OUT HitLocation))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString());
-		//TODO tell controlled tank to aim at this point
 		GetControlledTank()->AimAt(HitLocation);
 	}
 	
-	// Get world location of linetrace through crosshair
-	
-	// if hits landscape
-		// Tell controlled tank to aim at this point
 }
 
+// Get a ray hit location from a certain position on the screen, true if found false if not (ex. the skybox)
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
 	// find crosshair pos
@@ -62,14 +58,13 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection)) {
 		// line-trace along that look dir, and see what we end up hitting up to a max range
-		GetLookVectorHitLocation(LookDirection, HitLocation);
+		GetLookVectorHitLocation(OUT LookDirection, HitLocation);
 	}
 
-	
-	
 	return true;
 }
 
+// Gets the direction the camera is facing given a screen location to a world, lazer pointer
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const 
 {
 	FVector WorldLocation;
@@ -84,6 +79,7 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 	return false;
 }
 
+// Gets hit location from a line trace, only called if @GetLookDirection(ScreenLocation, LookDirection), is true
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
 {
 	FHitResult HitResult;

@@ -25,11 +25,13 @@ void ATank::BeginPlay()
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
 
 void ATank::SetTurretReference(UTankTurret* TurretToSet)
 {
+	if (!TurretToSet) { return; }
 	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 

@@ -23,7 +23,6 @@ public:
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-	// TODO Set Turret Reference
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
