@@ -9,8 +9,8 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
-
 class AProjectile;
+class UTankTrack;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -55,4 +55,6 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	
 	UTankBarrel* Barrel = nullptr;
+	UTankTrack* TankTrackLeft = nullptr;
+	UTankTrack* TankTrackRight = nullptr;
 };
