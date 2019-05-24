@@ -13,9 +13,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// No need to protect pointers as added at construction
-
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>("Aiming Component");
-	
 }
 
 
@@ -46,18 +44,23 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire() 
 {
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 	if (!Barrel) {
 		UE_LOG(LogTemp, Warning, TEXT("BYOB"));
 		return; 
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Bombs Away!"));
 
-	GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBlueprint, 
-		Barrel->GetSocketLocation("Projectile"),
-		FRotator(0), 
-		FActorSpawnParameters()
-	);
+	if (isReloaded) {
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation("Projectile"),
+			Barrel->GetSocketRotation("Projectile"),
+			FActorSpawnParameters()
+			);
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
 
 // Called to bind functionality to input

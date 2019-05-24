@@ -9,6 +9,7 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+
 class AProjectile;
 
 UCLASS()
@@ -31,8 +32,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 8000.f; 
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 5000.f; 
 
 protected:
 	// Called when the game starts or when spawned
@@ -44,6 +45,11 @@ private:
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSeconds = 3.f;
+
+	double LastFireTime = 0.f;
 
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
