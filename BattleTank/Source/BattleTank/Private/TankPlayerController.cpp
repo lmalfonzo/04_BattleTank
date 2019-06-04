@@ -10,15 +10,6 @@
 void ATankPlayerController::BeginPlay() 
 {
 	Super::BeginPlay();
-
-	if (!GetControlledTank()) {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController not posessing a tank"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Possessed Tank: %s"), *(GetControlledTank()->GetName()));
-	}
-
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
 }
 
 // Every tick, aim the tank to the crosshair

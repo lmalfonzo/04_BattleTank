@@ -5,7 +5,7 @@
 void UTankTrack::SetThrottle(float Throttle)
 {
 	// TODO Clamp throttle values 
-	UE_LOG(LogTemp, Warning, TEXT("Throttling %s Track at %f"), *GetName(), Throttle)
+	//UE_LOG(LogTemp, Warning, TEXT("Throttling %s Track at %f"), *GetName(), Throttle)
 
 	auto ForceApplied = GetForwardVector() * (Throttle * TrackMaxDrivingForce);
 	auto ForceLocation = GetComponentLocation();
