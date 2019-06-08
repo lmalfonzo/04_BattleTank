@@ -26,7 +26,7 @@ void ATank::BeginPlay()
 
 UTankAimingComponent* ATank::GetAimingComponent()
 {
-	return TankAimingComponent;
+	return TankAimingComponent; 
 }
 
 // Called to bind functionality to input

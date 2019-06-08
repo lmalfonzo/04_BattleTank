@@ -22,6 +22,8 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerTank) {
 		MoveToActor(PlayerTank, AcceptanceRadius);
 		// TODO This is probably bad practice, change later
+		if (!ControlledTank->GetAimingComponent()) { return; }
+			
 		ControlledTank->GetAimingComponent()->AimAt(PlayerTank->GetActorLocation());
 		ControlledTank->GetAimingComponent()->Fire();
 	}
