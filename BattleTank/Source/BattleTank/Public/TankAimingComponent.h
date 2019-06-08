@@ -35,6 +35,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStats = EFiringStatus::Reloading;
 
 private:	
