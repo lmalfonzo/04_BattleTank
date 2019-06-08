@@ -14,8 +14,6 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// No need to protect pointers as added at construction
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>("Aiming Component");
-	// OLD TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>("Movement Component");
 }
 
 
@@ -26,44 +24,9 @@ void ATank::BeginPlay()
 	
 }
 
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
+UTankAimingComponent* ATank::GetAimingComponent()
 {
-	if (!BarrelToSet) { return; }
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
-
-void ATank::SetTurretReference(UTankTurret* TurretToSet)
-{
-	if (!TurretToSet) { return; }
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
-
-void ATank::AimAt(FVector HitLocation)
-{
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-}
-
-void ATank::Fire() 
-{
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	if (!Barrel) {
-		UE_LOG(LogTemp, Warning, TEXT("BYOB"));
-		return; 
-	}
-
-	if (isReloaded) {
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBlueprint,
-			Barrel->GetSocketLocation("Projectile"),
-			Barrel->GetSocketRotation("Projectile"),
-			FActorSpawnParameters()
-			);
-
-		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
-	}
+	return TankAimingComponent;
 }
 
 // Called to bind functionality to input

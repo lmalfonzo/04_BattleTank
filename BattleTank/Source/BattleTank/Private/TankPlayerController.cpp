@@ -4,6 +4,7 @@
 #include "Tank.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
+#include "TankAimingComponent.h"
 #define OUT
 
 // Sets up the tank, Called at the beginnning of play
@@ -33,7 +34,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; //Out Param
 	if (GetSightRayHitLocation(OUT HitLocation))
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		//TODO This is also probably bad practice, change later
+		GetControlledTank()->GetAimingComponent()->AimAt(HitLocation);
 	}
 	
 }

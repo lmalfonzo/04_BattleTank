@@ -21,20 +21,8 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-
-	void AimAt(FVector HitLocation);
-
-	UFUNCTION(BlueprintCallable)
-	void Fire();
-	
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret* TurretToSet);
-
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 5000.f; 
+	//TODO This is probably why everything is fucked, change later
+	UTankAimingComponent* GetAimingComponent();
 
 protected:
 	// Called when the game starts or when spawned
@@ -49,15 +37,5 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float ReloadTimeInSeconds = 3.f;
 
-	double LastFireTime = 0.f;
-
-	UPROPERTY(EditAnywhere, Category = Setup)
-	TSubclassOf<AProjectile> ProjectileBlueprint;
-	
-	UTankBarrel* Barrel = nullptr;
-	UTankTrack* TankTrackLeft = nullptr;
-	UTankTrack* TankTrackRight = nullptr;
 };
